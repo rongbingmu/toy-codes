@@ -212,8 +212,9 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
-}
+	int mask = !x-1;
+	return (y & mask)|(z & ~mask);
+}	
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
  *   Example: isLessOrEqual(4,5) = 1.
@@ -222,7 +223,10 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  int isEqual = !(x + ~y + 1);
+  int cmp = ~x + y;
+  int isLess = !((cmp ^ ((cmp ^ y) & (x ^ y))) >> 31);
+	return isEqual | isLess;
 }
 //4
 /* 
@@ -234,7 +238,7 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+  return ((x | (~x + 1))>>31)+1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
